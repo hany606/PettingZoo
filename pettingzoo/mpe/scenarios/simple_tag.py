@@ -122,6 +122,16 @@ class Scenario(BaseScenario):
                 for adv in adversaries:
                     if self.is_collision(ag, adv):
                         rew += 10
+        # agents are penalized for exiting the screen, so that they can be caught by the adversaries
+        def bound(x):
+            if x < 1.1:
+                return 0
+            if x < 1.2:
+                return (x - 1.1) * 10
+            return min(np.exp(2 * x - 2), 10)
+        for p in range(world.dim_p):
+            x = abs(agent.state.p_pos[p])
+            rew -= bound(x)
         return rew
 
     def observation(self, agent, world):

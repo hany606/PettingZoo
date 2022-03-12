@@ -215,6 +215,7 @@ class SimpleEnv(AECEnv):
             # from multiagent._mpe_utils import rendering
             self.render_geoms = []
             self.render_geoms_xform = []
+
             for entity in self.world.entities:
                 geom = rendering.make_circle(entity.size)
                 xform = rendering.Transform()
@@ -222,6 +223,15 @@ class SimpleEnv(AECEnv):
                     geom.set_color(*entity.color[:3], alpha=0.5)
                 else:
                     geom.set_color(*entity.color[:3])
+                geom.add_attr(xform)
+                self.render_geoms.append(geom)
+                self.render_geoms_xform.append(xform)
+            # draw boundaries
+            bounds_circles = [(0.9,[0,1,0]), (1,[1,0,0]), (1.1, [0,0,1]), (1.2, [1,0,1])]
+            for r, c in bounds_circles:
+                geom = rendering.make_circle(r, filled=False)
+                xform = rendering.Transform()
+                geom.set_color(*c)
                 geom.add_attr(xform)
                 self.render_geoms.append(geom)
                 self.render_geoms_xform.append(xform)
