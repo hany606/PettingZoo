@@ -202,7 +202,7 @@ class SimpleEnv(AECEnv):
         self._cumulative_rewards[cur_agent] = 0
         self._accumulate_rewards()
 
-    def render(self, mode='human'):
+    def render(self, mode='human', extra_info=None):
         from . import rendering
 
         if self.viewer is None:
@@ -235,20 +235,25 @@ class SimpleEnv(AECEnv):
                 geom.add_attr(xform)
                 self.render_geoms.append(geom)
                 self.render_geoms_xform.append(xform)
+            
+
 
             # add geoms to viewer
             self.viewer.geoms = []
             for geom in self.render_geoms:
                 self.viewer.add_geom(geom)
 
-            self.viewer.text_lines = []
-            idx = 0
+            idx = 1
             for agent in self.world.agents:
                 if not agent.silent:
                     tline = rendering.TextLine(self.viewer.window, idx)
                     self.viewer.text_lines.append(tline)
                     idx += 1
-
+        self.viewer.text_lines = []
+        if(extra_info is not None):
+            tline = rendering.TextLine(self.viewer.window, 0)
+            tline.set_text(extra_info)
+            self.viewer.text_lines.append(tline)
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         for idx, other in enumerate(self.world.agents):
             if other.silent:

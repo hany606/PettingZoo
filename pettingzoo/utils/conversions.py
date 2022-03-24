@@ -135,8 +135,8 @@ class aec_to_parallel_wrapper(ParallelEnv):
         self.agents = self.aec_env.agents
         return observations, rewards, dones, infos
 
-    def render(self, mode="human"):
-        return self.aec_env.render(mode)
+    def render(self, mode="human", extra_info=None):
+        return self.aec_env.render(mode, extra_info)
 
     def state(self):
         return self.aec_env.state()

@@ -43,12 +43,12 @@ class OrderEnforcingWrapper(BaseWrapper):
         self._has_reset = False
         super().seed(seed)
 
-    def render(self, mode='human'):
+    def render(self, mode='human', extra_info=None):
         if not self._has_reset:
             EnvLogger.error_render_before_reset()
         assert mode in self.metadata['render.modes']
         self._has_rendered = True
-        return super().render(mode)
+        return super().render(mode, extra_info)
 
     def step(self, action):
         if not self._has_reset:
