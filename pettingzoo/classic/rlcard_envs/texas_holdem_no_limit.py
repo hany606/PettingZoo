@@ -13,6 +13,8 @@ from pettingzoo.utils.agent_selector import agent_selector
 
 from .rlcard_base import RLCardBase
 
+# Pixel art from Mariia Khmelnytska (https://www.123rf.com/photo_104453049_stock-vector-pixel-art-playing-cards-standart-deck-vector-set.html)
+
 
 def get_image(path):
     from os import path as os_path
@@ -39,10 +41,10 @@ def env(**kwargs):
 class raw_env(RLCardBase):
 
     metadata = {
-        "render.modes": ["human", "rgb_array"],
+        "render_modes": ["human", "rgb_array"],
         "name": "texas_holdem_no_limit_v6",
         "is_parallelizable": False,
-        "video.frames_per_second": 1,
+        "render_fps": 1,
     }
 
     def __init__(self, num_players=2):
