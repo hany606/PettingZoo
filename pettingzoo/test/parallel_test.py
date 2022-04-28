@@ -21,6 +21,8 @@ def sample_action(env, obs, agent):
 
 
 def parallel_api_test(par_env, num_cycles=1000):
+    par_env.max_cycles = num_cycles
+
     if not hasattr(par_env, 'possible_agents'):
         warnings.warn(missing_attr_warning.format(name='possible_agents'))
 
@@ -28,6 +30,10 @@ def parallel_api_test(par_env, num_cycles=1000):
     assert not isinstance(par_env.unwrapped, parallel_to_aec_wrapper)
     assert not isinstance(par_env.unwrapped, turn_based_aec_to_parallel_wrapper)
     assert not isinstance(par_env.unwrapped, BaseWrapper)
+
+    # checks that reset takes an argument seed
+    par_env.reset(seed=0)
+
     MAX_RESETS = 2
     for _ in range(MAX_RESETS):
         obs = par_env.reset()
@@ -80,3 +86,6 @@ def parallel_api_test(par_env, num_cycles=1000):
                     live_agents.remove(agent)
 
             assert set(par_env.agents) == live_agents
+
+            if len(live_agents) == 0:
+                break

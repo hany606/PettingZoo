@@ -8,7 +8,7 @@ from pettingzoo import AECEnv
 from pettingzoo.utils import agent_selector, wrappers
 from pettingzoo.utils.conversions import parallel_wrapper_fn
 
-from .manual_control import manual_control
+from .manual_policy import ManualPolicy
 from .pursuit_base import Pursuit as _env
 
 
@@ -49,7 +49,9 @@ class raw_env(AECEnv, EzPickle):
     def seed(self, seed=None):
         self.env.seed(seed)
 
-    def reset(self):
+    def reset(self, seed=None):
+        if seed is not None:
+            self.seed(seed=seed)
         self.steps = 0
         self.agents = self.possible_agents[:]
         self.rewards = dict(zip(self.agents, [(0) for _ in self.agents]))

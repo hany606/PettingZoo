@@ -76,10 +76,10 @@ class OrderEnforcingWrapper(BaseWrapper):
             EnvLogger.error_agent_iter_before_reset()
         return AECOrderEnforcingIterable(self, max_iter)
 
-    def reset(self):
+    def reset(self, seed=None):
         self._has_reset = True
         self._has_updated = True
-        super().reset()
+        super().reset(seed=seed)
 
     def __str__(self):
         if hasattr(self, 'metadata'):

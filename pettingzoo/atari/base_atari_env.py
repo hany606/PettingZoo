@@ -33,7 +33,7 @@ class ParallelAtariEnv(ParallelEnv, EzPickle):
             mode_num=None,
             seed=None,
             obs_type='rgb_image',
-            full_action_space=True,
+            full_action_space=False,
             env_name=None,
             max_cycles=100000,
             auto_rom_install_path=None):
@@ -138,7 +138,9 @@ class ParallelAtariEnv(ParallelEnv, EzPickle):
         self.ale.loadROM(self.rom_path)
         self.ale.setMode(self.mode)
 
-    def reset(self):
+    def reset(self, seed=None):
+        if seed is not None:
+            self.seed(seed=seed)
         self.ale.reset_game()
         self.agents = self.possible_agents[:]
         self.dones = {agent: False for agent in self.possible_agents}
@@ -197,7 +199,7 @@ class ParallelAtariEnv(ParallelEnv, EzPickle):
                 pygame.init()
                 self._screen = pygame.display.set_mode((screen_width * zoom_factor, screen_height * zoom_factor))
 
-            myImage = pygame.image.fromstring(image.tobytes(), image.shape[:2][::-1], "RGB")
+            myImage = pygame.image.frombuffer(image.tobytes(), image.shape[:2][::-1], "RGB")
 
             myImage = pygame.transform.scale(myImage, (screen_width * zoom_factor, screen_height * zoom_factor))
 
