@@ -2,6 +2,7 @@ import numpy as np
 
 from .._mpe_utils.core import Agent, Landmark, World
 from .._mpe_utils.scenario import BaseScenario
+from copy import deepcopy
 
 
 class Scenario(BaseScenario):
@@ -32,10 +33,42 @@ class Scenario(BaseScenario):
             landmark.collide = True
             landmark.movable = False
             landmark.size = 0.2
+            landmark.color = np.array([0.25, 0.25, 0.25])
             landmark.boundary = False
+        
+        # world.landmarks += self.set_boundaries(world)
         return world
 
-    def reset_world(self, world, np_random):
+    def set_boundaries(self, world):
+        boundary_list = []
+        landmark_size = 1
+        edge = 1.5 + landmark_size
+        num_landmarks = int(edge * 2 / landmark_size)
+        for x_pos in [-edge, edge]:
+            for i in range(num_landmarks):
+                landmark = Landmark()
+                landmark.state.p_pos = np.array([x_pos, -1.5 + i * landmark_size])
+                boundary_list.append(landmark)
+
+        for y_pos in [-edge, edge]:
+            for i in range(num_landmarks):
+                landmark = Landmark()
+                landmark.state.p_pos = np.array([-1.5 + i * landmark_size, y_pos])
+                boundary_list.append(landmark)
+
+        for i, l in enumerate(boundary_list):
+            l.name = "boundary %d" % i
+            l.collide = True
+            l.movable = False
+            l.boundary = True
+            l.color = np.array([0.75, 0.75, 0.75])
+            l.size = landmark_size
+            l.state.p_vel = np.zeros(world.dim_p)
+
+        return boundary_list
+
+
+    def reset_world(self, world, np_random, specific_pos=None):
         # random properties for agents
         for i, agent in enumerate(world.agents):
             agent.color = (
@@ -44,16 +77,25 @@ class Scenario(BaseScenario):
                 else np.array([0.85, 0.35, 0.35])
             )
             # random properties for landmarks
-        for i, landmark in enumerate(world.landmarks):
-            landmark.color = np.array([0.25, 0.25, 0.25])
+        # for i, landmark in enumerate(world.landmarks):
+        #     landmark.color = np.array([0.25, 0.25, 0.25])
+
         # set random initial states
         for agent in world.agents:
-            agent.state.p_pos = np_random.uniform(-1, +1, world.dim_p)
+            if(specific_pos is not None and agent.name in list(specific_pos.keys())):
+                agent.state.p_pos = deepcopy(specific_pos[agent.name])
+            else:
+                agent.state.p_pos = np_random.uniform(-1, +1, world.dim_p)
+            # print(agent.name, agent.state.p_pos)
             agent.state.p_vel = np.zeros(world.dim_p)
             agent.state.c = np.zeros(world.dim_c)
         for i, landmark in enumerate(world.landmarks):
             if not landmark.boundary:
-                landmark.state.p_pos = np_random.uniform(-0.9, +0.9, world.dim_p)
+                if(specific_pos is not None and "landmark" in list(specific_pos.keys()) and i < len(specific_pos["landmark"])):
+                    landmark.state.p_pos = deepcopy(specific_pos["landmark"][i])
+                else:
+                    landmark.state.p_pos = np_random.uniform(-0.9, +0.9, world.dim_p)
+                # print(f"Landmark {i}: {landmark.state.p_pos}")
                 landmark.state.p_vel = np.zeros(world.dim_p)
 
     def benchmark_data(self, agent, world):

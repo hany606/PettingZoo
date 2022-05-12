@@ -5,6 +5,7 @@ from gym.utils import seeding
 from pettingzoo import AECEnv
 from pettingzoo.utils import wrappers
 from pettingzoo.utils.agent_selector import agent_selector
+from pettingzoo.mpe.scenarios.simple_tag import Scenario as STS
 
 
 def make_env(raw_env):
@@ -22,7 +23,7 @@ def make_env(raw_env):
 
 class SimpleEnv(AECEnv):
     def __init__(
-        self, scenario, world, max_cycles, continuous_actions=False, local_ratio=None
+        self, scenario, world, max_cycles, continuous_actions=False, local_ratio=None, specific_pos=None
     ):
         super().__init__()
 
@@ -39,8 +40,9 @@ class SimpleEnv(AECEnv):
         self.world = world
         self.continuous_actions = continuous_actions
         self.local_ratio = local_ratio
+        self.specific_pos = specific_pos
 
-        self.scenario.reset_world(self.world, self.np_random)
+        self.scenario.reset_world(self.world, self.np_random, specific_pos=self.specific_pos)
 
         self.agents = [agent.name for agent in self.world.agents]
         self.possible_agents = self.agents[:]
@@ -118,10 +120,13 @@ class SimpleEnv(AECEnv):
         )
         return np.concatenate(states, axis=None)
 
-    def reset(self, seed=None):
+    def reset(self, seed=None, specific_pos=None):
         if seed is not None:
             self.seed(seed=seed)
-        self.scenario.reset_world(self.world, self.np_random)
+        if(isinstance(self.scenario, STS)):
+            self.scenario.reset_world(self.world, self.np_random, specific_pos)
+        else:
+            self.scenario.reset_world(self.world, self.np_random)
 
         self.agents = self.possible_agents[:]
         self.rewards = {name: 0.0 for name in self.agents}

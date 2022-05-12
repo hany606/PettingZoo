@@ -12,11 +12,12 @@ class raw_env(SimpleEnv):
         num_obstacles=2,
         max_cycles=25,
         continuous_actions=False,
+        specific_pos=None
     ):
         print("##### MODIFIED PZ Env ####")
         scenario = Scenario()
         world = scenario.make_world(num_good, num_adversaries, num_obstacles)
-        super().__init__(scenario, world, max_cycles, continuous_actions)
+        super().__init__(scenario, world, max_cycles, continuous_actions, specific_pos=specific_pos)
         self.metadata["name"] = "simple_tag_v2"
 
 

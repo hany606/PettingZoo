@@ -117,8 +117,8 @@ class aec_to_parallel_wrapper(ParallelEnv):
     def unwrapped(self):
         return self.aec_env.unwrapped
 
-    def reset(self, seed=None):
-        self.aec_env.reset(seed=seed)
+    def reset(self, seed=None, specific_pos=None):
+        self.aec_env.reset(seed=seed, specific_pos=specific_pos)
         self.agents = self.aec_env.agents[:]
         observations = {
             agent: self.aec_env.observe(agent)
