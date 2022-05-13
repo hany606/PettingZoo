@@ -36,7 +36,7 @@ class Scenario(BaseScenario):
             landmark.color = np.array([0.25, 0.25, 0.25])
             landmark.boundary = False
         
-        # world.landmarks += self.set_boundaries(world)
+        world.landmarks += self.set_boundaries(world)
         return world
 
     def set_boundaries(self, world):
