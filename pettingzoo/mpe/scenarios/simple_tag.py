@@ -60,7 +60,7 @@ class Scenario(BaseScenario):
 
         landmark_size = 2
         edge = 1.5 + landmark_size
-        s_landmark_size = 0.94975/2
+        s_landmark_size = 1.5*0.94975/2
         s_edge = 1.75
         landmark = Landmark()
         landmark.state.p_pos = np.array([0, -edge])
