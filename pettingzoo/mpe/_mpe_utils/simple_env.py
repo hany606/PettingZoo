@@ -261,14 +261,14 @@ class SimpleEnv(AECEnv):
                 self.render_geoms.append(geom)
                 self.render_geoms_xform.append(xform)
             # draw boundaries
-            bounds_circles = [(0.9,[0,1,0]), (1,[1,0,0]), (1.1, [0,0,1]), (1.2, [1,0,1])]
-            for r, c in bounds_circles:
-                geom = rendering.make_circle(r, filled=False)
-                xform = rendering.Transform()
-                geom.set_color(*c)
-                geom.add_attr(xform)
-                self.render_geoms.append(geom)
-                self.render_geoms_xform.append(xform)
+            # bounds_circles = [(0.9,[0,1,0]), (1,[1,0,0]), (1.1, [0,0,1]), (1.2, [1,0,1])]
+            # for r, c in bounds_circles:
+            #     geom = rendering.make_circle(r, filled=False)
+            #     xform = rendering.Transform()
+            #     geom.set_color(*c)
+            #     geom.add_attr(xform)
+            #     self.render_geoms.append(geom)
+            #     self.render_geoms_xform.append(xform)
             
 
 

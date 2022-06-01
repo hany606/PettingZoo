@@ -43,50 +43,50 @@ class Scenario(BaseScenario):
     def set_boundaries(self, world):
         boundary_list = []
         
-        # landmark_size = 1#2
-        # edge = 1.5 + landmark_size
-        # num_landmarks = int(edge * 2 / landmark_size)
-        # for x_pos in [-edge, edge]:
-        #     for i in range(num_landmarks):
-        #         landmark = Landmark()
-        #         landmark.state.p_pos = np.array([x_pos, -1.5 + i * landmark_size])
-        #         boundary_list.append(landmark)
-
-        # for y_pos in [-edge, edge]:
-        #     for i in range(num_landmarks):
-        #         landmark = Landmark()
-        #         landmark.state.p_pos = np.array([-1.5 + i * landmark_size, y_pos])
-        #         boundary_list.append(landmark)
-
-        landmark_size = 2
+        landmark_size = 1#2
         edge = 1.5 + landmark_size
-        s_landmark_size = 1.5*0.94975/2
-        s_edge = 1.75
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([0, -edge])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([0, edge])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([edge, 0])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([-edge, 0])
-        boundary_list.append(landmark)
+        num_landmarks = int(edge * 2 / landmark_size)
+        for x_pos in [-edge, edge]:
+            for i in range(num_landmarks):
+                landmark = Landmark()
+                landmark.state.p_pos = np.array([x_pos, -1.5 + i * landmark_size])
+                boundary_list.append(landmark)
 
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([s_edge, -s_edge])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([-s_edge, -s_edge])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([-s_edge,s_edge])
-        boundary_list.append(landmark)
-        landmark = Landmark()
-        landmark.state.p_pos = np.array([s_edge, s_edge])
-        boundary_list.append(landmark)
+        for y_pos in [-edge, edge]:
+            for i in range(num_landmarks):
+                landmark = Landmark()
+                landmark.state.p_pos = np.array([-1.5 + i * landmark_size, y_pos])
+                boundary_list.append(landmark)
+
+        # landmark_size = 2
+        # edge = 1.5 + landmark_size
+        # s_landmark_size = 1.5*0.94975/2
+        # s_edge = 1.75
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([0, -edge])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([0, edge])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([edge, 0])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([-edge, 0])
+        # boundary_list.append(landmark)
+
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([s_edge, -s_edge])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([-s_edge, -s_edge])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([-s_edge,s_edge])
+        # boundary_list.append(landmark)
+        # landmark = Landmark()
+        # landmark.state.p_pos = np.array([s_edge, s_edge])
+        # boundary_list.append(landmark)
 
 
 
@@ -98,8 +98,8 @@ class Scenario(BaseScenario):
             l.color = np.array([0.75, 0.75, 0.75])
             size = landmark_size
             # ---------------
-            if(i >= 4):
-                size = s_landmark_size
+            # if(i >= 4):
+            #     size = s_landmark_size
             # ---------------
             l.size = size
             l.state.p_vel = np.zeros(world.dim_p)
